@@ -1,44 +1,43 @@
 package com.pjw.java.queue;
 
-public class ArrayQueue<T> {
+/**
+ * @author pangjiawei
+ * @created 2020-12-29 12:09:15
+ */
+public class CircularArrayQueue<T> extends ArrayQueue<T> {
 
-    protected Object[] array;
-    protected int head = 0;
-    protected int tail = 0;
-
-    public ArrayQueue(int length) {
-        this.array = new Object[length];
+    public CircularArrayQueue(int length) {
+        super(length);
     }
 
+    @Override
     public boolean isFull() {
-        return tail == array.length;
+        return (tail + 1) % array.length == head;
     }
 
-    public boolean isEmpty() {
-        return head == tail;
-    }
-
+    @Override
     public boolean enqueue(T obj) {
         if (isFull()) {
             return false;
         }
         array[tail] = obj;
-        tail++;
+        tail = (tail + 1) % array.length;
         return true;
     }
 
     @SuppressWarnings("unchecked")
+    @Override
     public T dequeue() {
         if (isEmpty()) {
             return null;
         }
         Object obj = array[head];
-        head++;
+        head = (head + 1) % array.length;
         return (T) obj;
     }
 
     public static void main(String[] args) {
-        ArrayQueue<Integer> queue = new ArrayQueue<>(4);
+        ArrayQueue<Integer> queue = new CircularArrayQueue<>(4);
 
         for (int i = 0; i < 5; i++) {
             System.out.printf("enqueue %s, result: %s\n", i, queue.enqueue(i));
