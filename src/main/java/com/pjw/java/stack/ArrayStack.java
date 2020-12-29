@@ -18,6 +18,10 @@ public class ArrayStack<T> {
         return count == array.length;
     }
 
+    public void clear() {
+        this.count = 0;
+    }
+
     public boolean push(T obj) {
         if (isFull()) {
             return false;
@@ -35,19 +39,5 @@ public class ArrayStack<T> {
         Object obj = array[count - 1];
         count--;
         return (T) obj;
-    }
-
-    public static void main(String[] args) {
-        ArrayStack<Integer> stack = new ArrayStack<>(5);
-
-        for (int i = 0; i < 6; i++) {
-            System.out.printf("push %s, result: %s\n", i, stack.push(i));
-        }
-
-        System.out.println("---------");
-
-        while (!stack.isEmpty()) {
-            System.out.printf("pop %s\n", stack.pop());
-        }
     }
 }
