@@ -2,6 +2,7 @@ package com.pjw.java.sort;
 
 import com.pjw.java.util.MathUtil;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -13,28 +14,35 @@ import java.util.Arrays;
 public class SortTest {
 
     private final int[] array = {1, 2, 3, 4, 5, 6, 7, 8};
+    private int[] anotherArray;
+
+    @BeforeEach
+    void initAnotherArray() {
+        anotherArray = Arrays.copyOf(array, array.length);
+        MathUtil.shuffleArray(anotherArray);
+    }
 
     @Test
     void bubbleSort() {
-        int[] anotherArray = Arrays.copyOf(array, array.length);
-        MathUtil.shuffleArray(anotherArray);
         Sort.bubbleSort(anotherArray, anotherArray.length);
         Assertions.assertArrayEquals(array, anotherArray);
     }
 
     @Test
     void insertionSort() {
-        int[] anotherArray = Arrays.copyOf(array, array.length);
-        MathUtil.shuffleArray(anotherArray);
         Sort.insertionSort(anotherArray, anotherArray.length);
         Assertions.assertArrayEquals(array, anotherArray);
     }
 
     @Test
     void selectionSort() {
-        int[] anotherArray = Arrays.copyOf(array, array.length);
-        MathUtil.shuffleArray(anotherArray);
         Sort.selectionSort(anotherArray, anotherArray.length);
+        Assertions.assertArrayEquals(array, anotherArray);
+    }
+
+    @Test
+    void mergeSort() {
+        Sort.mergeSort(anotherArray, anotherArray.length);
         Assertions.assertArrayEquals(array, anotherArray);
     }
 }

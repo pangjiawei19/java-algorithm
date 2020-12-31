@@ -1,5 +1,7 @@
 package com.pjw.java.sort;
 
+import java.util.Arrays;
+
 /**
  * @author pangjiawei
  * @created 2020-12-29 22:02:38
@@ -40,14 +42,15 @@ public class Sort {
 
         for (int i = 1; i < n; i++) {
             int value = array[i];
-            for (int j = i - 1; j >= 0; j--) {
+            int j = i - 1;
+            for (; j >= 0; j--) {
                 if (array[j] > value) {
                     array[j + 1] = array[j];
                 } else {
-                    array[j + 1] = value;
                     break;
                 }
             }
+            array[j + 1] = value;
         }
     }
 
@@ -71,6 +74,67 @@ public class Sort {
                 array[minIndex] = array[i];
                 array[i] = tmp;
             }
+        }
+    }
+
+    /**
+     * 归并排序
+     */
+    public static void mergeSort(int[] array, int n) {
+        if (n <= 1) {
+            return;
+        }
+        mergeSortWithRange(array, 0, n - 1);
+    }
+
+    /**
+     * 归并排序，指定数组起始位置
+     */
+    private static void mergeSortWithRange(int[] array, int beginIndex, int endIndex) {
+        if (beginIndex >= endIndex) {
+            return;
+        }
+
+        int middleIndex = (beginIndex + endIndex) / 2;
+        mergeSortWithRange(array, beginIndex, middleIndex);
+        mergeSortWithRange(array, middleIndex + 1, endIndex);
+        mergeSortMergeArray(array, beginIndex, endIndex, middleIndex);
+    }
+
+    /**
+     * 归并排序，合并
+     */
+    private static void mergeSortMergeArray(int[] array, int beginIndex, int endIndex, int middleIndex) {
+        int[] tmpArray = new int[endIndex - beginIndex + 1];
+        int tmpArrayIndex = 0;
+
+        int leftIndex = beginIndex;
+        int rightIndex = middleIndex + 1;
+
+        while (leftIndex <= middleIndex && rightIndex <= endIndex) {
+            if (array[leftIndex] <= array[rightIndex]) {
+                tmpArray[tmpArrayIndex] = array[leftIndex];
+                leftIndex++;
+            } else {
+                tmpArray[tmpArrayIndex] = array[rightIndex];
+                rightIndex++;
+            }
+            tmpArrayIndex++;
+        }
+
+        int start = leftIndex;
+        int end = middleIndex;
+        if (rightIndex <= endIndex) {
+            start = rightIndex;
+            end = endIndex;
+        }
+
+        while (start <= end) {
+            tmpArray[tmpArrayIndex++] = array[start++];
+        }
+
+        for (int i = 0; i <= endIndex - beginIndex; i++) {
+            array[beginIndex + i] = tmpArray[i];
         }
     }
 }
