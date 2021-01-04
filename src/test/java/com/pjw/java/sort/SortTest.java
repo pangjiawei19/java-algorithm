@@ -45,4 +45,10 @@ public class SortTest {
         Sort.mergeSort(anotherArray, anotherArray.length);
         Assertions.assertArrayEquals(array, anotherArray);
     }
+
+    @Test
+    void quickSort() {
+        Sort.quickSort(anotherArray, anotherArray.length);
+        Assertions.assertArrayEquals(array, anotherArray);
+    }
 }
