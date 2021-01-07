@@ -51,4 +51,10 @@ public class SortTest {
         Sort.quickSort(anotherArray, anotherArray.length);
         Assertions.assertArrayEquals(array, anotherArray);
     }
+
+    @Test
+    void countingSort() {
+        Sort.countingSort(anotherArray, anotherArray.length);
+        Assertions.assertArrayEquals(array, anotherArray);
+    }
 }

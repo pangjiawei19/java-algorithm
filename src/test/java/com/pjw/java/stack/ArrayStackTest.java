@@ -17,7 +17,9 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 public class ArrayStackTest {
 
     public static final int STACK_SIZE = 5;
+    public static final int DYNAMIC_STACK_SIZE = 20;
     private static final ArrayStack<Integer> stack = new ArrayStack<>(STACK_SIZE);
+    private static final ArrayStack<Integer> dynamicStack = new DynamicArrayStack<>();
 
     @BeforeEach
     void prepare() {
@@ -43,6 +45,24 @@ public class ArrayStackTest {
             } else {
                 assertNull(num);
             }
+        }
+    }
+
+    @Test
+    @Order(3)
+    void testDynamicPush() {
+        for (int i = 0; i < DYNAMIC_STACK_SIZE; i++) {
+            boolean result = dynamicStack.push(i);
+            assertEquals(result, true);
+        }
+    }
+
+    @Test
+    @Order(4)
+    void testDynamicPop() {
+        for (int i = 0; i < DYNAMIC_STACK_SIZE; i++) {
+            Integer num = dynamicStack.pop();
+            assertEquals(i, DYNAMIC_STACK_SIZE - num - 1);
         }
     }
 }

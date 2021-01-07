@@ -182,4 +182,45 @@ public class Sort {
 
         return i;
     }
+
+    /**
+     * 计数排序
+     */
+    public static void countingSort(int[] array, int n) {
+        if (n <= 1) {
+            return;
+        }
+
+        // 查找数组的范围
+        int max = array[0];
+        for (int i = 1; i < n; i++) {
+            if (max < array[i]) {
+                max = array[i];
+            }
+        }
+
+        // 计数数组
+        int[] countArray = new int[max + 1];
+        for (int i = 0; i < n; i++) {
+            countArray[array[i]]++;
+        }
+
+        // 计数数组累加
+        for (int i = 1; i < countArray.length; i++) {
+            countArray[i] = countArray[i] + countArray[i - 1];
+        }
+
+        // 临时数组存储排序后的值
+        int[] tmpArray = new int[n];
+        for (int i = n - 1; i >= 0; i--) {
+            int index = countArray[array[i]] - 1;
+            tmpArray[index] = array[i];
+            countArray[array[i]]--;
+        }
+
+        // 赋值给原数组
+        for (int i = 0; i < n; i++) {
+            array[i] = tmpArray[i];
+        }
+    }
 }
