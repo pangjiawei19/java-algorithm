@@ -57,4 +57,10 @@ public class SortTest {
         Sort.countingSort(anotherArray, anotherArray.length);
         Assertions.assertArrayEquals(array, anotherArray);
     }
+
+    @Test
+    void heapSort() {
+        Sort.heapSort(anotherArray, anotherArray.length);
+        Assertions.assertArrayEquals(array, anotherArray);
+    }
 }

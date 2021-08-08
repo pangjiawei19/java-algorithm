@@ -223,4 +223,64 @@ public class Sort {
             array[i] = tmpArray[i];
         }
     }
+
+    /**
+     * 堆排序
+     */
+    public static void heapSort(int[] array, int n) {
+        buildHeap(array, n);
+        int k = n;
+        while (k > 0) {
+            heapSwap(array, 0, k - 1);
+            k--;
+            heapify(array, k, 0);
+        }
+    }
+
+    /**
+     * 堆排序-建堆
+     */
+    private static void buildHeap(int[] array, int n) {
+        for (int i = n / 2 - 1; i >= 0; i--) {
+            heapify(array, n, i);
+        }
+    }
+
+    /**
+     * 堆排序-堆化
+     */
+    private static void heapify(int[] array, int n, int i) {
+        while (true) {
+            int maxIndex = i;
+            int leftChild = i * 2 + 1;
+            int rightChild = leftChild + 1;
+
+            // 先和左子节点比较
+            if (leftChild < n && array[i] < array[leftChild]) {
+                maxIndex = leftChild;
+            }
+            // 再和右子节点比较
+            if (rightChild < n && array[maxIndex] < array[rightChild]) {
+                maxIndex = rightChild;
+            }
+
+            // 如果没有子节点比自己大，退出循环
+            if (maxIndex == i) {
+                break;
+            }
+
+            // 和比自己大的子节点交换
+            heapSwap(array, i, maxIndex);
+            i = maxIndex; // 从比自己大的子节点开始继续判断
+        }
+    }
+
+    /**
+     * 堆排序-交换数据
+     */
+    private static void heapSwap(int[] array, int index1, int index2) {
+        int tmp = array[index1];
+        array[index1] = array[index2];
+        array[index2] = tmp;
+    }
 }
