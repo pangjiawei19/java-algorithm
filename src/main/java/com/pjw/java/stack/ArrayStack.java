@@ -40,4 +40,8 @@ public class ArrayStack<T> {
         count--;
         return (T) obj;
     }
+
+    public int getSize() {
+        return array.length;
+    }
 }

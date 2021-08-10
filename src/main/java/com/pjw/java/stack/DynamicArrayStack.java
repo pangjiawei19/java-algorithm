@@ -25,6 +25,8 @@ public class DynamicArrayStack<T> extends ArrayStack<T> {
     public static void main(String[] args) {
         ArrayStack<Integer> stack = new DynamicArrayStack<>();
 
+        System.out.printf("stack size: %s\n", stack.getSize());
+
         for (int i = 0; i < 20; i++) {
             System.out.printf("push %s, result: %s\n", i, stack.push(i));
         }
