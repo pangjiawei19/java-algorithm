@@ -109,6 +109,13 @@ public class AstarGraph {
 
         public void add(Vertex vertex) {
             System.out.println("pool add -> " + vertex.id);
+
+            if(this.count + 1 >= this.nodes.length) {
+                Vertex[] newNodes = new Vertex[(int) (this.nodes.length * 1.5)];
+                System.arraycopy(this.nodes, 0, newNodes, 0, this.nodes.length);
+                this.nodes = newNodes;
+            }
+
             // 将数据插到堆尾
             this.count++;
             this.nodes[count] = vertex;
@@ -120,7 +127,7 @@ public class AstarGraph {
         // 更新结点的值，并且从下往上堆化，重新符合堆的定义。时间复杂度O(logn)。
         public void update(Vertex vertex) {
             int index = 0;
-            for (int i = 1; i < nodes.length; i++) {
+            for (int i = 1; i <= count; i++) {
                 Vertex node = nodes[i];
                 if (node.id == vertex.id) {
                     node.dist = vertex.dist;
