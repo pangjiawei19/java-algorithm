@@ -21,6 +21,14 @@ public class SearchTest {
     }
 
     @Test
+    void binarySearchRecursion() {
+        int index1 = Search.binarySearchRecursion(array, array.length, 5);
+        int index2 = Search.binarySearchRecursion(array, array.length, 15);
+        Assertions.assertEquals(index1, 4);
+        Assertions.assertEquals(index2, -1);
+    }
+
+    @Test
     void binarySearchFirst() {
         int index1 = Search.binarySearch(array2, array2.length, 4);
         int index2 = Search.binarySearchFirst(array2, array2.length, 4);

@@ -13,20 +13,41 @@ public class Search {
         int left = 0;
         int right = n - 1;
 
-        while (left <= right) {
-            // 当 left 和 right 很大时，可能会移除，所以可以改写为：int middle = left + (right - left) / 2
+        while (left <= right) {// 注意循环条件，不是 left < right
+            // 当 left 和 right 很大时，可能会溢出，所以可以改写为：int middle = left + (right - left) / 2
             // 为追求性能，可以进一步改写为：int middle = left + ((right - left) >> 1)
             int middle = (left + right) / 2;
             if (value == array[middle]) {
                 return middle;
             } else if (value < array[middle]) {
-                right = middle - 1;
+                right = middle - 1; // 注意 right 与 left 的更新
             } else {
                 left = middle + 1;
             }
         }
 
         return -1;
+    }
+
+    /**
+     * 二分查找 - 递归
+     */
+    public static int binarySearchRecursion(int[] array, int n, int value) {
+        return binarySearchRecursionInternally(array, 0, n - 1, value);
+    }
+
+    private static int binarySearchRecursionInternally(int[] array, int left, int right, int value) {
+        if (left > right) {
+            return -1;
+        }
+        int middle = left + ((right - left) >> 1);
+        if (value == array[middle]) {
+            return middle;
+        } else if (value < array[middle]) {
+            return binarySearchRecursionInternally(array, left, middle - 1, value);
+        } else {
+            return binarySearchRecursionInternally(array, middle + 1, right, value);
+        }
     }
 
     /**
