@@ -115,7 +115,7 @@ public class Search {
                 } else {
                     right = middle - 1;
                 }
-            } else if (value > array[middle]) {
+            } else { // value > array[middle]
                 left = middle + 1;
             }
         }
@@ -134,7 +134,7 @@ public class Search {
             int middle = left + ((right - left) >> 1);
             if (value < array[middle]) {
                 right = middle - 1;
-            } else if (value >= array[middle]) {
+            } else { // value >= array[middle]
                 if (middle == n - 1 || array[middle + 1] > value) {
                     return middle;
                 } else {
