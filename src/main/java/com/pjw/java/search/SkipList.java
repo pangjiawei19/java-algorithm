@@ -38,23 +38,25 @@ public class SkipList {
             update[i] = head;
         }
 
-        // record every level largest value which smaller than insert value in update[]
+        // 把每一层比给定 value 值小的哪些节点中值最大的那个节点给找出来，放在 update[] 对应的位置
         Node p = head;
         for (int i = level - 1; i >= 0; --i) {
-            while (p.forwards[i] != null && p.forwards[i].data < value) {
+            while (p.forwards[i] != null && p.forwards[i].data < value) { // 每一层从 p（最高层时是 head）开始往后找，直到其后继节点值不存在或者值大于等于给定 value 才停止
                 p = p.forwards[i];
             }
-            update[i] = p;// use update save node in search path
+            update[i] = p;// 注意这个 for 循环是从高层往底层遍历，即高层找到了指定的 node，再找底层时不需要从头开始遍历，低层仍然从这个 node 继续往后找
         }
 
-        // in search path node next node become new node forwords(next)
+        // update[] 中的值都是每层中找出来的节点，这个节点的后继节点不存在或者值大于等于给定 value，因此 newNode 要作为这个节点的后继节点
         for (int i = 0; i < level; ++i) {
             newNode.forwards[i] = update[i].forwards[i];
             update[i].forwards[i] = newNode;
         }
 
-        // update node hight
-        if (levelCount < level) levelCount = level;
+        // 更新层数最大值
+        if (levelCount < level) {
+            levelCount = level;
+        }
     }
 
     public void delete(int value) {
@@ -90,8 +92,9 @@ public class SkipList {
     private int randomLevel() {
         int level = 1;
 
-        while (Math.random() < SKIPLIST_P && level < MAX_LEVEL)
+        while (Math.random() < SKIPLIST_P && level < MAX_LEVEL) {
             level += 1;
+        }
         return level;
     }
 
@@ -106,7 +109,7 @@ public class SkipList {
 
     public class Node {
         private int data = -1;
-        private Node forwards[] = new Node[MAX_LEVEL];
+        private Node forwards[] = new Node[MAX_LEVEL]; // 链表，记录每一层的下一个节点（比自己值大）
         private int maxLevel = 0;
 
         @Override
@@ -120,7 +123,12 @@ public class SkipList {
         for (int i = 5; i > 0; i--) {
             list.insert(i);
         }
+        for (int i = 6; i <= 10; i++) {
+            list.insert(i);
+        }
 
         list.printAll();
+
+        System.out.println(list.find(4));;
     }
 }
