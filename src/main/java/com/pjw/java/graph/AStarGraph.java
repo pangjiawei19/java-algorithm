@@ -3,18 +3,18 @@ package com.pjw.java.graph;
 import java.util.LinkedList;
 
 /**
- * 有项有权图 - 用于 Astar 寻路
+ * 有项有权图 - 用于 AStar 寻路
  *
  * @author pangjiawei
  * @created 2021-08-08 13:59:00
  */
-public class AstarGraph {
+public class AStarGraph {
 
     private LinkedList<Edge> adj[]; // 邻接表
     private int v; // 顶点个数
     private Vertex[] vertexes;
 
-    public AstarGraph(int v) {
+    public AStarGraph(int v) {
         this.v = v;
         this.adj = new LinkedList[v];
         this.vertexes = new Vertex[v];
@@ -47,8 +47,8 @@ public class AstarGraph {
      */
     private class Vertex {
         public int id; // 顶点编号
-        public int dist; // 起始顶点到这个顶点的距离，也就是g(i)
-        public int f; // f(i)=g(i)+h(i)
+        public int dist; // 起始顶点到这个顶点的距离，也就是 g(i)
+        public int f; // f(i) = g(i) + h(i)
         public int x; // 地图坐标 x
         public int y; // 地图坐标 y
 
@@ -64,7 +64,7 @@ public class AstarGraph {
     /**
      * 优先级队列
      */
-    private class PriorityQueue { // 根据vertex.f构建小顶堆
+    private class PriorityQueue { // 根据 vertex.f 构建小顶堆
         private Vertex[] nodes;
         private int count;
 
@@ -103,12 +103,12 @@ public class AstarGraph {
 
                 i = minIndex; // 从比自己小的子节点开始继续判断
             }
-//            System.out.println("pool get -> " + top.id);
+//            System.out.println("queue get -> " + top.id);
             return top;
         }
 
         public void add(Vertex vertex) {
-            System.out.println("pool add -> " + vertex.id);
+            System.out.println("queue add -> " + vertex.id);
 
             if(this.count + 1 >= this.nodes.length) {
                 Vertex[] newNodes = new Vertex[(int) (this.nodes.length * 1.5)];
@@ -124,7 +124,7 @@ public class AstarGraph {
             this.heapify(count);
         }
 
-        // 更新结点的值，并且从下往上堆化，重新符合堆的定义。时间复杂度O(logn)。
+        // 更新结点的值，并且从下往上堆化，重新符合堆的定义。时间复杂度 O(logn)。
         public void update(Vertex vertex) {
             int index = 0;
             for (int i = 1; i <= count; i++) {
@@ -176,13 +176,13 @@ public class AstarGraph {
     }
 
 
-    private int hManhattan(Vertex v1, Vertex v2) { // Vertex表示顶点，后面有定义
+    private int hManhattan(Vertex v1, Vertex v2) {
         return Math.abs(v1.x - v2.x) + Math.abs(v1.y - v2.y);
     }
 
-    public void astar(int s, int t) { // 从顶点s到顶点t的路径
+    public void aStar(int s, int t) { // 从顶点 s 到顶点 t 的路径
         int[] predecessor = new int[this.v]; // 用来还原路径
-        // 按照vertex的f值构建的小顶堆，而不是按照dist
+        // 按照 vertex 的 f 值构建的小顶堆，而不是按照 dist
         PriorityQueue queue = new PriorityQueue(this.v);
         boolean[] inQueue = new boolean[this.v]; // 标记是否进入过队列
         vertexes[s].dist = 0;
@@ -192,9 +192,9 @@ public class AstarGraph {
         while (!queue.isEmpty()) {
             Vertex minVertex = queue.poll(); // 取堆顶元素并删除
             for (int i = 0; i < adj[minVertex.id].size(); ++i) {
-                Edge e = adj[minVertex.id].get(i); // 取出一条minVertex相连的边
-                Vertex nextVertex = vertexes[e.tid]; // minVertex-->nextVertex
-                if (minVertex.dist + e.w < nextVertex.dist) { // 更新next的dist,f
+                Edge e = adj[minVertex.id].get(i); // 取出一条 minVertex 相连的边
+                Vertex nextVertex = vertexes[e.tid]; // minVertex -> nextVertex
+                if (minVertex.dist + e.w < nextVertex.dist) { // 更新 next 的 dist,f
                     nextVertex.dist = minVertex.dist + e.w;
                     nextVertex.f = nextVertex.dist + hManhattan(nextVertex, vertexes[t]);
                     predecessor[nextVertex.id] = minVertex.id;
@@ -205,8 +205,8 @@ public class AstarGraph {
                         inQueue[nextVertex.id] = true;
                     }
                 }
-                if (nextVertex.id == t) { // 只要到达t就可以结束while了
-                    queue.clear(); // 清空queue，才能推出while循环
+                if (nextVertex.id == t) { // 只要到达 t 就可以结束 while 了
+                    queue.clear(); // 清空 queue，才能退出 while 循环
                     break;
                 }
             }
@@ -224,24 +224,24 @@ public class AstarGraph {
 
     public static void main(String[] args) {
         /*
-         *   10   10   10
+         *   1    1    1
          * 0 -- 1 -- 2 -- 3
-         * |10            |10
+         * |1             |1
          * 4 -- 8 -- 5 -- 6 -- 7 -- 9
-         *   10   10   10   10   10
+         *   1    1    1    1    1
          */
 
-        AstarGraph graph = new AstarGraph(10);
+        AStarGraph graph = new AStarGraph(10);
         graph.addVertex(0,0,0);
-        graph.addVertex(1,10,0);
-        graph.addVertex(2,20,0);
-        graph.addVertex(3,30,0);
-        graph.addVertex(4,0,10);
-        graph.addVertex(5,20,10);
-        graph.addVertex(6,30,10);
-        graph.addVertex(7,40,10);
-        graph.addVertex(8,10,10);
-        graph.addVertex(9,50,10);
+        graph.addVertex(1,1,0);
+        graph.addVertex(2,2,0);
+        graph.addVertex(3,3,0);
+        graph.addVertex(4,0,1);
+        graph.addVertex(5,2,1);
+        graph.addVertex(6,3,1);
+        graph.addVertex(7,4,1);
+        graph.addVertex(8,1,1);
+        graph.addVertex(9,5,1);
 
         graph.addEdge(0, 1, 1);
         graph.addEdge(1, 2, 1);
@@ -254,6 +254,6 @@ public class AstarGraph {
         graph.addEdge(6, 7, 1);
         graph.addEdge(7, 9, 1);
 
-        graph.astar(5, 9);
+        graph.aStar(5, 9);
     }
 }

@@ -95,12 +95,12 @@ public class DijkstraGraph {
 
                 i = minIndex; // 从比自己小的子节点开始继续判断
             }
-//            System.out.println("pool get -> " + top.id);
+//            System.out.println("queue get -> " + top.id);
             return top;
         }
 
         public void add(Vertex vertex) {
-            System.out.println("pool add -> " + vertex.id);
+            System.out.println("queue add -> " + vertex.id);
 
             if(this.count + 1 >= this.nodes.length) {
                 Vertex[] newNodes = new Vertex[(int) (this.nodes.length * 1.5)];
@@ -116,7 +116,7 @@ public class DijkstraGraph {
             this.heapify(count);
         }
 
-        // 更新结点的值，并且从下往上堆化，重新符合堆的定义。时间复杂度O(logn)。
+        // 更新结点的值，并且从下往上堆化，重新符合堆的定义。时间复杂度 O(logn)。
         public void update(Vertex vertex) {
             int index = 0;
             for (int i = 1; i <= count; i++) {
@@ -158,33 +158,33 @@ public class DijkstraGraph {
         }
     }
 
-    public void dijkstra(int s, int t) { // 从顶点s到顶点t的最短路径
+    public void dijkstra(int s, int t) { // 从顶点 s 到顶点 t 的最短路径
         int[] predecessor = new int[this.v]; // 用来还原最短路径
         Vertex[] vertexes = new Vertex[this.v]; // 记录从起点到每个顶点的距离
         for (int i = 0; i < this.v; ++i) {
             vertexes[i] = new Vertex(i);
         }
         PriorityQueue queue = new PriorityQueue(this.v);// 小顶堆
-        boolean[] inqueue = new boolean[this.v]; // 标记是否进入过队列
+        boolean[] inQueue = new boolean[this.v]; // 标记是否进入过队列
         vertexes[s].dist = 0;
         queue.add(vertexes[s]);
-        inqueue[s] = true;
+        inQueue[s] = true;
         while (!queue.isEmpty()) {
             Vertex minVertex = queue.poll(); // 取堆顶元素并删除
             if (minVertex.id == t) {
                 break; // 最短路径产生了
             }
             for (int i = 0; i < adj[minVertex.id].size(); ++i) {
-                Edge e = adj[minVertex.id].get(i); // 取出一条minVetex相连的边
-                Vertex nextVertex = vertexes[e.tid]; // minVertex-->nextVertex
-                if (minVertex.dist + e.w < nextVertex.dist) { // 更新next的dist
+                Edge e = adj[minVertex.id].get(i); // 取出一条 minVertex 相连的边
+                Vertex nextVertex = vertexes[e.tid]; // minVertex -> nextVertex
+                if (minVertex.dist + e.w < nextVertex.dist) { // 更新 next 的 dist
                     nextVertex.dist = minVertex.dist + e.w;
                     predecessor[nextVertex.id] = minVertex.id;
-                    if (inqueue[nextVertex.id]) {
-                        queue.update(nextVertex); // 更新队列中的dist值
+                    if (inQueue[nextVertex.id]) {
+                        queue.update(nextVertex); // 更新队列中的 dist 值
                     } else {
                         queue.add(nextVertex);
-                        inqueue[nextVertex.id] = true;
+                        inQueue[nextVertex.id] = true;
                     }
                 }
             }
@@ -202,11 +202,11 @@ public class DijkstraGraph {
 
     public static void main(String[] args) {
         /*
-         *   10   10   10
+         *   1    1    1
          * 0 -- 1 -- 2 -- 3
-         * |10            |10
+         * |1             |1
          * 4 -- 8 -- 5 -- 6 -- 7 -- 9
-         *   10   10   10   10   10
+         *   1     1    1    1    1
          */
 
         DijkstraGraph graph = new DijkstraGraph(10);
