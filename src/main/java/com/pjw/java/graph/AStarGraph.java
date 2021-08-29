@@ -3,7 +3,7 @@ package com.pjw.java.graph;
 import java.util.LinkedList;
 
 /**
- * 有项有权图 - 用于 AStar 寻路
+ * 有向有权图 - 用于 AStar 寻路
  *
  * @author pangjiawei
  * @created 2021-08-08 13:59:00
